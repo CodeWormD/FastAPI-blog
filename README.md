@@ -4,5 +4,5 @@ FastAPI learning
 
 ##### Some com
 
-alembic revision --autogenerate -m 'First'
+alembic revision --autogenerate -m ''
 alembic upgrade head
