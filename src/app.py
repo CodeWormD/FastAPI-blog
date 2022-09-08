@@ -1,16 +1,22 @@
-from typing import Union
-import uvicorn
-
-from fastapi import FastAPI
-
-app = FastAPI()
+from fastapi import FastAPI, HTTPException
+from sqlalchemy.exc import IntegrityError
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+def create_app():
+    app_ = FastAPI(
+        docs_url='/'
+    )
+    _include_routers(app_)
+
+    return app_
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[int, None] = None):
-    return {"item_id": item_id, "q": q}
+def _include_routers(app_: FastAPI):
+    """Include one router which include all need routers"""
+
+    from routers.router import router
+
+    app_.include_router(router)
+
+
+app = create_app()
