@@ -65,10 +65,9 @@ def update_post(
     data: UpdatePostScheme
 ):
     post = posts.get_post(db, data.id)
-    if data.group_id:
+    if data.group_id or data.text or data.title:
         post.group_id = data.group_id
-    elif data.title:
-        post.title = data.title
-    elif data.text:
         post.text = data.text
+        post.title = data.title
+
     return posts.update_post(db, post)

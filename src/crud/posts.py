@@ -41,7 +41,7 @@ def delete_post(
 def update_post(
     db: Session,
     post: Post
-) -> None:
+) -> Post:
     db.add(post)
     db.commit()
     db.refresh(post)

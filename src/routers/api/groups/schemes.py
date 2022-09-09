@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from typing import Optional
 
 class GroupResponseScheme(BaseModel):
     id: int
@@ -11,5 +11,16 @@ class GroupResponseScheme(BaseModel):
 
 class CreateGroupScheme(BaseModel):
     name: str
-    
-    
+
+
+class UpdateGroupScheme(BaseModel):
+    id: int
+    name: Optional[str] = None
+
+
+class OkResponseScheme(BaseModel):
+    ok: bool
+
+
+class DeleteGroupScheme(BaseModel):
+    id: int

@@ -1,10 +1,12 @@
 from fastapi import APIRouter, Query, Depends, HTTPException
 from sqlalchemy.orm import Session
-
+from typing import List
 from crud import groups
 from db.database import get_db
 
-from .schemes import GroupResponseScheme, CreateGroupScheme
+from .schemes import (
+    GroupResponseScheme, CreateGroupScheme, UpdateGroupScheme,
+    OkResponseScheme, DeleteGroupScheme)
 
 
 router = APIRouter(
@@ -19,11 +21,10 @@ def create_group(
     *,
     data: CreateGroupScheme
 ):
-    group = groups.create_group(
+    return groups.create_group(
         db,
         name=data.name
     )
-    return group
 
 @router.get('/', response_model=GroupResponseScheme)
 def get_group(
@@ -31,8 +32,35 @@ def get_group(
     *,
     id: int = Query(None)
 ):
-    group = groups.get_group(
+    return groups.get_group(
         db,
         id=id
     )
-    return group
+
+@router.get('/all', response_model=List[GroupResponseScheme])
+def get_group(
+    db: Session = Depends(get_db)
+):
+    return groups.get_groups_all(db)
+
+@router.patch('/', response_model=GroupResponseScheme)
+def update_group(
+    db: Session = Depends(get_db),
+    *,
+    data: UpdateGroupScheme
+):
+    
+    group = groups.get_group(db, data.id)
+    if data.name:
+        group.name = data.name
+    return groups.patch_group(db, group)
+
+@router.delete('/', response_model=OkResponseScheme)
+def delete_group(
+    db: Session = Depends(get_db),
+    *,
+    data: DeleteGroupScheme
+):
+    group = groups.get_group(db, data.id)
+    groups.delete_group(db, group)
+    return{'ok': True}
