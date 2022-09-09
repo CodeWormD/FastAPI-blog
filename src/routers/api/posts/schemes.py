@@ -18,5 +18,18 @@ class CreatePostScheme(BaseModel):
     title: str
     text: str
     group_id: Optional[int] = None
-    
-    
+
+
+class DeletePostScheme(BaseModel):
+    id: int
+
+
+class OkResponseScheme(BaseModel):
+    ok: bool
+
+
+class UpdatePostScheme(BaseModel):
+    id: int
+    group_id: Optional[int] = None
+    title: Optional[str] = None
+    text: Optional[str] = None

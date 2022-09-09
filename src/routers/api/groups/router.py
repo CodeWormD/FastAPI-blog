@@ -19,11 +19,11 @@ def create_group(
     *,
     data: CreateGroupScheme
 ):
-    post = groups.create_group(
+    group = groups.create_group(
         db,
         name=data.name
     )
-    return post
+    return group
 
 @router.get('/', response_model=GroupResponseScheme)
 def get_group(
@@ -31,8 +31,8 @@ def get_group(
     *,
     id: int = Query(None)
 ):
-    post = groups.get_group(
+    group = groups.get_group(
         db,
         id=id
     )
-    return post
+    return group

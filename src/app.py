@@ -1,11 +1,16 @@
 from fastapi import FastAPI, HTTPException
-from sqlalchemy.exc import IntegrityError
+from debug_toolbar.middleware import DebugToolbarMiddleware
 
 
 def create_app():
     app_ = FastAPI(
-        docs_url='/'
+        docs_url='/',
+        debug=True
     )
+    app_.add_middleware(
+        DebugToolbarMiddleware,
+        panels=["debug_toolbar.panels.sqlalchemy.SQLAlchemyPanel"]
+        )
     _include_routers(app_)
 
     return app_
