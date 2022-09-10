@@ -37,11 +37,13 @@ def get_group(
         id=id
     )
 
+
 @router.get('/all', response_model=List[GroupResponseScheme])
-def get_group(
+def get_groups(
     db: Session = Depends(get_db)
 ):
     return groups.get_groups_all(db)
+
 
 @router.patch('/', response_model=GroupResponseScheme)
 def update_group(

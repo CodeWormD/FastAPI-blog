@@ -1,6 +1,6 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload, selectinload
 from typing import List
-from db.models import Group
+from db.models import Group, Post
 
 
 def create_group(
@@ -22,7 +22,7 @@ def get_group(
     db: Session,
     id: int
 ) -> Group:
-    return db.query(Group).where(Group.id == id).first()
+    return db.query(Group).options(selectinload(Group.posts)).where(Group.id == id).first()
 
 def get_groups_all(
     db: Session
@@ -33,6 +33,7 @@ def patch_group(
     db: Session,
     group: Group
 ) -> Group:
+    
     db.add(group)
     db.commit()
     db.refresh(group)

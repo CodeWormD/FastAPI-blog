@@ -13,7 +13,7 @@ class Post(Base):
     text = sa.Column(sa.Text, nullable=False)
     date = sa.Column(sa.DateTime, default=sa.func.now())
     
-    groups = relationship('Group')
+    groups = relationship('Group', back_populates = 'posts')
 
 
 class Group(Base):
@@ -21,3 +21,5 @@ class Group(Base):
     
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.String(20), nullable=False)
+    
+    posts = relationship('Post', back_populates = 'groups', lazy='select')
